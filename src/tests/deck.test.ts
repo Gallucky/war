@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { createWarCardDeck, shuffleDeck } from "../game/deck";
+import { drawCardsToPlayers, playRound } from "../game/war";
 
 describe("Deck Logic", () => {
     it("should create a deck of 52 cards", () => {
@@ -46,5 +47,31 @@ describe("Deck Logic", () => {
 
         console.log("Shuffled Deck:");
         console.table(shuffled);
+    });
+
+    it("should play a round of the game and determine the winner", () => {
+        console.log("=== Test #5 ===");
+
+        let { player1Hand, player2Hand } = drawCardsToPlayers();
+
+        const { player1HandBefore, player2HandBefore } = {
+            player1HandBefore: player1Hand,
+            player2HandBefore: player2Hand,
+        };
+
+        console.log(`Player 1 Hand [Length: ${player1HandBefore.length}]:`);
+        console.log(player1HandBefore);
+        console.log(`Player 2 Hand [Length: ${player2HandBefore.length}]:`);
+        console.log(player2HandBefore);
+
+        const roundResult = playRound(player1Hand, player2Hand);
+
+        player1Hand = roundResult.player1Hand;
+        player2Hand = roundResult.player2Hand;
+
+        console.log(`Player 1 Hand [Length: ${player1Hand.length}]:`);
+        console.log(player1Hand);
+        console.log(`Player 2 Hand [Length: ${player2Hand.length}]:`);
+        console.log(player2Hand);
     });
 });
